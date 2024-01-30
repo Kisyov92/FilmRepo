@@ -1,24 +1,22 @@
-import logo from './logo.svg';
-import './App.css';
+import popcornImg from "./img/popcorn.jpg";
+import logo from "./img/logo.png";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <header
+      style={{ "--image-url": `url(${popcornImg})` }}
+      className="bg-[image:var(--image-url)] h-[500px] bg-cover bg-[center_bottom_-500px]"
+    >
+      <nav className="bg-violet-500 flex justify-between items-center w-[1024px] mx-auto px-10 rounded-md py-1">
+        <img src={logo} alt="FilmRepo's logo" className="w-60" />
+        <ul>
+          <li>Login</li>
+        </ul>
+      </nav>
+      <form>
+        <input type="text" />
+      </form>
+    </header>
   );
 }
 
