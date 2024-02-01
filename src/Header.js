@@ -1,7 +1,21 @@
 import popcornImg from "./img/popcorn.jpg";
 import logo from "./img/logo.png";
+import { useEffect, useInsertionEffect, useState } from "react";
 
-function Header() {
+function Header({ onMovieInput, onSetQuery }) {
+  const [inputValue, setInputValue] = useState("");
+
+  function handleInputChange(e) {
+    setInputValue(e.target.value);
+  }
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      onSetQuery(inputValue);
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [inputValue]);
+
   return (
     <header
       style={{ "--image-url": `url(${popcornImg})` }}
@@ -17,7 +31,9 @@ function Header() {
         <input
           type="text"
           placeholder="Search movies..."
-          className="bg-stone-50 px-2 py-1 text-2xl text-[#333]"
+          className="rounded-md bg-stone-50 px-2 py-1 text-2xl text-[#333] outline-none"
+          onChange={handleInputChange}
+          value={inputValue}
         />
         <div className="text-xl">4 Results found</div>
       </form>
