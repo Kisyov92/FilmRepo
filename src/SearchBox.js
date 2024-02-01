@@ -83,9 +83,13 @@ const moviess = [
   },
 ];
 
-function SearchBox({ movies }) {
+function SearchBox({ movies, onChooseMovie }) {
   return movies.map((movie) => (
-    <SearchBoxMovie key={movie.imdbId} movie={movie} />
+    <SearchBoxMovie
+      key={movie.imdbId}
+      movie={movie}
+      onChooseMovie={onChooseMovie}
+    />
   ));
 }
 
