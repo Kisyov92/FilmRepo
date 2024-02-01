@@ -11,9 +11,14 @@ function App() {
   function handleMovieInput(e) {
     setQuery(e.target.value);
   }
+
   return (
     <>
-      <Header onMovieInput={handleMovieInput} onSetQuery={setQuery} />
+      <Header
+        onMovieInput={handleMovieInput}
+        onSetQuery={setQuery}
+        moviesNum={movies.length}
+      />
       <Main movies={movies} isLoading={isLoading} error={error} />
     </>
   );

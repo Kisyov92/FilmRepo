@@ -2,7 +2,7 @@ import popcornImg from "./img/popcorn.jpg";
 import logo from "./img/logo.png";
 import { useEffect, useInsertionEffect, useState } from "react";
 
-function Header({ onMovieInput, onSetQuery }) {
+function Header({ moviesNum, onSetQuery }) {
   const [inputValue, setInputValue] = useState("");
 
   function handleInputChange(e) {
@@ -27,7 +27,10 @@ function Header({ onMovieInput, onSetQuery }) {
           <li>Login</li>
         </ul>
       </nav>
-      <form className="absolute bottom-0 right-[50%] flex translate-x-[50%] translate-y-[50%] items-center gap-x-6 rounded-md bg-[#6741d9] p-3">
+      <form
+        onSubmit={(e) => e.preventDefault()}
+        className="absolute bottom-0 right-[50%] flex translate-x-[50%] translate-y-[50%] items-center gap-x-6 rounded-md bg-[#6741d9] p-3"
+      >
         <input
           type="text"
           placeholder="Search movies..."
@@ -35,7 +38,7 @@ function Header({ onMovieInput, onSetQuery }) {
           onChange={handleInputChange}
           value={inputValue}
         />
-        <div className="text-xl">4 Results found</div>
+        <div className="text-xl">{moviesNum} Results found</div>
       </form>
     </header>
   );
