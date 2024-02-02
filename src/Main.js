@@ -30,7 +30,7 @@ function Main({ movies, isLoading, error }) {
         setErrorMovie(false);
         setIsLoadingMovie(true);
         const res = await fetch(
-          `http://www.omdbapi.com/?apikey=${KEY}&i=${movieID}`,
+          `https://www.omdbapi.com/?apikey=${KEY}&i=${movieID}`,
         );
         if (!res.ok)
           throw new Error("Something went wrong with fetching movie");
