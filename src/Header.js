@@ -1,6 +1,6 @@
 import popcornImg from "./img/popcorn.jpg";
 import logo from "./img/logo.png";
-import { useEffect, useInsertionEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 function Header({ moviesNum, onSetQuery }) {
   const [inputValue, setInputValue] = useState("");
