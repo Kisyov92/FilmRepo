@@ -11,20 +11,14 @@ function Main({ movies, isLoading, error }) {
   const [movie, setMovie] = useState({});
   const [isLoadingMovie, setIsLoadingMovie] = useState(false);
   const [errorMovie, setErrorMovie] = useState("");
-
-  function handleChooseMovie(id) {
-    setMovieID(id);
-  }
+  const [activeList, setActiveList] = useState("");
 
   useEffect(() => {
     async function fetchMovie() {
-      // const res = await fetch(
-      //   `http://www.omdbapi.com/?apikey=${KEY}&i=${movieID}`,
-      // );
-      // const data = await res.json();
-      // setMovie(data);
-
-      if (!movieID) return;
+      if (!movieID) {
+        setMovie({});
+        return;
+      }
 
       try {
         setErrorMovie(false);
@@ -47,6 +41,22 @@ function Main({ movies, isLoading, error }) {
     fetchMovie();
   }, [movieID]);
 
+  function handleChooseMovie(id) {
+    setMovieID(id);
+    setActiveList("");
+  }
+
+  function handleActiveList(name) {
+    setActiveList(name);
+    setMovieID("");
+  }
+
+  const bgWatched = activeList === "watched" ? "bg-stone-500" : "bg-stone-600";
+  const bgWatchList =
+    activeList === "watchlist" ? "bg-stone-500" : "bg-stone-600";
+  const bgRecomended =
+    activeList === "recomended" ? "bg-stone-500" : "bg-stone-600";
+
   const noMovies = movies?.length === 0;
 
   return (
@@ -63,9 +73,29 @@ function Main({ movies, isLoading, error }) {
           )}
         </div>
       </section>
-      <section className="h-fit w-full rounded-lg bg-stone-600">
+      <section className="h-fit w-full rounded-lg bg-stone-600 ">
+        <div className="flex justify-center gap-3 bg-stone-700 pb-10 text-center">
+          <button
+            className={`w-full rounded-md  p-7 text-xl ${bgWatched}`}
+            onClick={() => handleActiveList("watched")}
+          >
+            WATCH HISTORY
+          </button>
+          <button
+            className={`w-full rounded-md  p-7 text-xl ${bgWatchList}`}
+            onClick={() => handleActiveList("watchlist")}
+          >
+            WATCHLIST
+          </button>
+          <button
+            className={`w-full rounded-md  p-7 text-xl ${bgRecomended}`}
+            onClick={() => handleActiveList("recomended")}
+          >
+            RECOMENDED MOVIES
+          </button>
+        </div>
         {!isLoadingMovie && !errorMovie && movie.Title && (
-          <MovieInfo movie={movie} />
+          <MovieInfo movie={movie} onCloseMovie={handleChooseMovie} />
         )}
         {isLoadingMovie && <Loader />}
         {errorMovie && <ErrorMessage message={errorMovie} />}
