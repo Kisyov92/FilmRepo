@@ -1,3 +1,15 @@
+# About FilmRepo
+
+FilmRepo is a web application in the making. For now you can just search for movies and see additional information about them ( IMDb rating, plot, starts director etc.). 
+Features to be added:
+1. User Authentication.
+2. Every user will have 3 lists.
+   a) List with movies that the user already watched.
+   b) List with movies that the user wants to watch later.
+   c) List with movies recomended to the user by other users.
+
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
