@@ -6,7 +6,7 @@ import ErrorMessage from "./ErrorMessage";
 
 const KEY = "7f1f26fa";
 
-function Main({ movies, isLoading, error }) {
+function Main({ movies, isLoading, error, isLoggedIn, user }) {
   const [movieID, setMovieID] = useState("");
   const [movie, setMovie] = useState({});
   const [isLoadingMovie, setIsLoadingMovie] = useState(false);
@@ -74,28 +74,34 @@ function Main({ movies, isLoading, error }) {
         </div>
       </section>
       <section className="h-fit w-full rounded-lg bg-stone-600 ">
-        <div className="flex justify-center gap-3 bg-stone-700 pb-10 text-center">
-          <button
-            className={`w-full rounded-md  p-7 text-xl ${bgWatched}`}
-            onClick={() => handleActiveList("watched")}
-          >
-            WATCH HISTORY
-          </button>
-          <button
-            className={`w-full rounded-md  p-7 text-xl ${bgWatchList}`}
-            onClick={() => handleActiveList("watchlist")}
-          >
-            WATCHLIST
-          </button>
-          <button
-            className={`w-full rounded-md  p-7 text-xl ${bgRecomended}`}
-            onClick={() => handleActiveList("recomended")}
-          >
-            RECOMENDED MOVIES
-          </button>
-        </div>
+        {isLoggedIn && (
+          <div className="flex justify-center gap-3 bg-stone-700 pb-10 text-center">
+            <button
+              className={`w-full rounded-md  p-7 text-xl ${bgWatched}`}
+              onClick={() => handleActiveList("watched")}
+            >
+              WATCH HISTORY
+            </button>
+            <button
+              className={`w-full rounded-md  p-7 text-xl ${bgWatchList}`}
+              onClick={() => handleActiveList("watchlist")}
+            >
+              WATCHLIST
+            </button>
+            <button
+              className={`w-full rounded-md  p-7 text-xl ${bgRecomended}`}
+              onClick={() => handleActiveList("recomended")}
+            >
+              RECOMENDED MOVIES
+            </button>
+          </div>
+        )}
         {!isLoadingMovie && !errorMovie && movie.Title && (
-          <MovieInfo movie={movie} onCloseMovie={handleChooseMovie} />
+          <MovieInfo
+            movie={movie}
+            onCloseMovie={handleChooseMovie}
+            user={user}
+          />
         )}
         {isLoadingMovie && <Loader />}
         {errorMovie && <ErrorMessage message={errorMovie} />}

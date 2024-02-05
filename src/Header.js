@@ -10,7 +10,7 @@ import {
 } from "firebase/auth";
 import { auth } from "./config/firebase";
 
-function Header({ moviesNum, onSetQuery }) {
+function Header({ moviesNum, onSetQuery, onLoginAndLogout }) {
   const [inputValue, setInputValue] = useState("");
   const [userAction, setUserAction] = useState("");
   const [registerEmail, setRegisterEmail] = useState("");
@@ -35,6 +35,7 @@ function Header({ moviesNum, onSetQuery }) {
       if (currentUser) {
         setUser(currentUser);
         setUserAction("");
+        onLoginAndLogout(currentUser.email);
       }
     });
   }, []);
@@ -51,6 +52,8 @@ function Header({ moviesNum, onSetQuery }) {
         registerEmail,
         registerPassword,
       );
+      setRegisterEmail("");
+      setRegisterPassword("");
     } catch (err) {
       console.log(err.message);
     }
@@ -63,6 +66,8 @@ function Header({ moviesNum, onSetQuery }) {
         loginEmail,
         loginPassword,
       );
+      setLoginEmail("");
+      setLoginPassword("");
     } catch (err) {
       console.log(err.message);
     }

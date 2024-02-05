@@ -1,4 +1,7 @@
-function MovieInfo({ movie, onCloseMovie }) {
+import { db } from "./config/firebase";
+import { collection, addDoc } from "firebase/firestore";
+
+function MovieInfo({ movie, onCloseMovie, user }) {
   const {
     Poster: poster,
     Title: title,
@@ -11,6 +14,18 @@ function MovieInfo({ movie, onCloseMovie }) {
     Director: director,
     Writer: writer,
   } = movie;
+
+  async function handleAddMovie() {
+    try {
+      const docRef = await addDoc(collection(db, user), {
+        watched: [],
+        wishlist: movie,
+      });
+      console.log("Document written with ID: ", docRef.id);
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+  }
 
   return (
     <div className="rounded-lg">
@@ -54,7 +69,10 @@ function MovieInfo({ movie, onCloseMovie }) {
         <button className="mb-4 rounded-md bg-[#6741d9] px-4 py-2 text-xl">
           ADD TO WATCH HISTORY
         </button>
-        <button className="mb-4 rounded-md bg-[#6741d9] px-4 py-2 text-xl">
+        <button
+          className="mb-4 rounded-md bg-[#6741d9] px-4 py-2 text-xl"
+          onClick={handleAddMovie}
+        >
           ADD TO WATCHLIST
         </button>
       </div>
