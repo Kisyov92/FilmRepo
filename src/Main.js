@@ -69,6 +69,34 @@ function Main({ movies, isLoading, error }) {
     setMovieList(newLocalStorageWishlistCollection);
   }
 
+  function handleMoveToOtherList(e, listName, id) {
+    e.stopPropagation();
+    const existingLocalStorageWishlistCollection = JSON.parse(
+      localStorage.getItem(listName),
+    );
+    const newLocalStorageWishlistCollection = [
+      ...existingLocalStorageWishlistCollection,
+    ].filter((movie) => movie.id !== id);
+
+    localStorage.setItem(
+      listName,
+      JSON.stringify(newLocalStorageWishlistCollection),
+    );
+    setMovieList(newLocalStorageWishlistCollection);
+
+    const otherListName = listName === "watched" ? "watchlist" : "watched";
+    const otherList = JSON.parse(localStorage.getItem(otherListName)) || [];
+
+    if (otherList.some((movie) => movie.id === id)) return;
+
+    const movie = existingLocalStorageWishlistCollection.find(
+      (movie) => movie.id === id,
+    );
+
+    const newOtherList = [...otherList, { id, movie: { ...movie.movie } }];
+    localStorage.setItem(otherListName, JSON.stringify(newOtherList));
+  }
+
   useEffect(() => {
     setMovieList(JSON.parse(localStorage.getItem(activeList)));
   }, [activeList]);
@@ -134,6 +162,7 @@ function Main({ movies, isLoading, error }) {
                 onChooseMovie={handleChooseMovie}
                 listName={activeList}
                 onRemoveMovie={handleRemoveFromList}
+                onMoveToOtherList={handleMoveToOtherList}
               />
             ))}
           </div>
