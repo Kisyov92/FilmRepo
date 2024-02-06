@@ -6,16 +6,16 @@ import Main from "./Main";
 function App() {
   const [query, setQuery] = useState("");
   const { movies, isLoading, error } = useMovies(query);
-  const [username, setUsername] = useState("");
-  const isLoggedIn = Boolean(username);
+  // const [username, setUsername] = useState("");
+  // const isLoggedIn = Boolean(username);
 
   function handleMovieInput(e) {
     setQuery(e.target.value);
   }
 
-  function handleLoginAndLogout(bool) {
-    setUsername(bool);
-  }
+  // function handleLoginAndLogout(bool) {
+  //   setUsername(bool);
+  // }
 
   return (
     <>
@@ -23,14 +23,14 @@ function App() {
         onMovieInput={handleMovieInput}
         onSetQuery={setQuery}
         moviesNum={movies.length}
-        onLoginAndLogout={handleLoginAndLogout}
+        // onLoginAndLogout={handleLoginAndLogout}
       />
       <Main
         movies={movies}
         isLoading={isLoading}
         error={error}
-        isLoggedIn={isLoggedIn}
-        user={username}
+        // isLoggedIn={isLoggedIn}
+        // user={username}
       />
     </>
   );

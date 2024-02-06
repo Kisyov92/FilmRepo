@@ -3,15 +3,17 @@ import Loader from "./Loader";
 import SearchBox from "./SearchBox";
 import MovieInfo from "./MovieInfo";
 import ErrorMessage from "./ErrorMessage";
+import MovieList from "./MovieList";
 
 const KEY = "7f1f26fa";
 
-function Main({ movies, isLoading, error, isLoggedIn, user }) {
+function Main({ movies, isLoading, error }) {
   const [movieID, setMovieID] = useState("");
   const [movie, setMovie] = useState({});
   const [isLoadingMovie, setIsLoadingMovie] = useState(false);
   const [errorMovie, setErrorMovie] = useState("");
   const [activeList, setActiveList] = useState("");
+  let movieList;
 
   useEffect(() => {
     async function fetchMovie() {
@@ -51,17 +53,21 @@ function Main({ movies, isLoading, error, isLoggedIn, user }) {
     setMovieID("");
   }
 
+  if (activeList) {
+    movieList = JSON.parse(localStorage.getItem(activeList));
+  }
+
   const bgWatched = activeList === "watched" ? "bg-stone-500" : "bg-stone-600";
   const bgWatchList =
     activeList === "watchlist" ? "bg-stone-500" : "bg-stone-600";
-  const bgRecomended =
-    activeList === "recomended" ? "bg-stone-500" : "bg-stone-600";
+  // const bgRecomended =
+  //   activeList === "recomended" ? "bg-stone-500" : "bg-stone-600";
 
   const noMovies = movies?.length === 0;
 
   return (
     <main className="flex gap-10 bg-stone-700 px-10 py-14 text-stone-50">
-      <section className="scrollbar max-h-[600px] min-h-fit w-1/2 overflow-y-scroll   rounded-lg bg-stone-600">
+      <section className="scrollbar max-h-[600px] w-1/2 overflow-y-scroll   rounded-lg bg-stone-600">
         <div>
           {isLoading && <Loader />}
           {!isLoading && !error && (
@@ -74,37 +80,51 @@ function Main({ movies, isLoading, error, isLoggedIn, user }) {
         </div>
       </section>
       <section className="h-fit w-full rounded-lg bg-stone-600 ">
-        {isLoggedIn && (
-          <div className="flex justify-center gap-3 bg-stone-700 pb-10 text-center">
-            <button
-              className={`w-full rounded-md  p-7 text-xl ${bgWatched}`}
-              onClick={() => handleActiveList("watched")}
-            >
-              WATCH HISTORY
-            </button>
-            <button
-              className={`w-full rounded-md  p-7 text-xl ${bgWatchList}`}
-              onClick={() => handleActiveList("watchlist")}
-            >
-              WATCHLIST
-            </button>
-            <button
+        <div className="flex justify-center gap-3 bg-stone-700 pb-10 text-center">
+          <button
+            className={`w-full rounded-md  p-7 text-xl ${bgWatched}`}
+            onClick={() => handleActiveList("watched")}
+          >
+            WATCH HISTORY
+          </button>
+          <button
+            className={`w-full rounded-md  p-7 text-xl ${bgWatchList}`}
+            onClick={() => handleActiveList("watchlist")}
+          >
+            WATCHLIST
+          </button>
+          {/* <button
               className={`w-full rounded-md  p-7 text-xl ${bgRecomended}`}
               onClick={() => handleActiveList("recomended")}
             >
               RECOMENDED MOVIES
-            </button>
-          </div>
-        )}
+            </button> */}
+        </div>
         {!isLoadingMovie && !errorMovie && movie.Title && (
           <MovieInfo
             movie={movie}
             onCloseMovie={handleChooseMovie}
-            user={user}
+            // user={user}
           />
         )}
         {isLoadingMovie && <Loader />}
         {errorMovie && <ErrorMessage message={errorMovie} />}
+        {activeList && localStorage.getItem(activeList) && (
+          <div className="flex flex-wrap">
+            {movieList.map((movie) => (
+              <MovieList
+                key={movie.id}
+                movie={movie.movie}
+                onChooseMovie={handleChooseMovie}
+              />
+            ))}
+          </div>
+        )}
+        {activeList && !localStorage.getItem(activeList) && (
+          <div className="p-10 text-center text-3xl">
+            No movies have been added to the list.
+          </div>
+        )}
       </section>
     </main>
   );

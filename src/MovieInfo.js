@@ -1,7 +1,6 @@
-import { db } from "./config/firebase";
-import { collection, addDoc } from "firebase/firestore";
+import { useState } from "react";
 
-function MovieInfo({ movie, onCloseMovie, user }) {
+function MovieInfo({ movie, onCloseMovie }) {
   const {
     Poster: poster,
     Title: title,
@@ -13,17 +12,45 @@ function MovieInfo({ movie, onCloseMovie, user }) {
     Actors: actors,
     Director: director,
     Writer: writer,
+    imdbID,
   } = movie;
 
-  async function handleAddMovie() {
-    try {
-      const docRef = await addDoc(collection(db, user), {
-        watched: [],
-        wishlist: movie,
-      });
-      console.log("Document written with ID: ", docRef.id);
-    } catch (e) {
-      console.error("Error adding document: ", e);
+  function changeWishlist() {
+    if (!localStorage.getItem("watchlist")) {
+      localStorage.setItem(
+        "watchlist",
+        JSON.stringify([{ id: imdbID, movie }]),
+      );
+    } else {
+      const existingLocalStorageWishlistCollection = JSON.parse(
+        localStorage.getItem("watchlist"),
+      );
+      const newLocalStorageWishlistCollection = [
+        ...existingLocalStorageWishlistCollection,
+        { id: imdbID, movie: { ...movie } },
+      ];
+      localStorage.setItem(
+        "watchlist",
+        JSON.stringify(newLocalStorageWishlistCollection),
+      );
+    }
+  }
+  function changeWatchedlist() {
+    if (!localStorage.getItem("watched")) {
+      localStorage.setItem("watched", JSON.stringify([{ id: imdbID, movie }]));
+    } else {
+      const existingLocalStorageWishlistCollection = JSON.parse(
+        localStorage.getItem("watched"),
+      );
+
+      const newLocalStorageWishlistCollection = [
+        ...existingLocalStorageWishlistCollection,
+        { id: imdbID, movie: { ...movie } },
+      ];
+      localStorage.setItem(
+        "watched",
+        JSON.stringify(newLocalStorageWishlistCollection),
+      );
     }
   }
 
@@ -66,14 +93,17 @@ function MovieInfo({ movie, onCloseMovie, user }) {
         </div>
       </div>
       <div className="flex justify-center gap-10">
-        <button className="mb-4 rounded-md bg-[#6741d9] px-4 py-2 text-xl">
-          ADD TO WATCH HISTORY
+        <button
+          className="mb-4 rounded-md bg-[#6741d9] px-4 py-2 text-xl"
+          onClick={changeWatchedlist}
+        >
+          {false ? "REMOVE FROM WATCHED" : "ADD TO WATCH HISTORY"}
         </button>
         <button
           className="mb-4 rounded-md bg-[#6741d9] px-4 py-2 text-xl"
-          onClick={handleAddMovie}
+          onClick={changeWishlist}
         >
-          ADD TO WATCHLIST
+          {false ? "REMOVE FROM WATCHLIST" : "ADD TO WATCHLIST"}
         </button>
       </div>
     </div>
