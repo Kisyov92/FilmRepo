@@ -13,7 +13,7 @@ function Main({ movies, isLoading, error }) {
   const [isLoadingMovie, setIsLoadingMovie] = useState(false);
   const [errorMovie, setErrorMovie] = useState("");
   const [activeList, setActiveList] = useState("");
-  let movieList;
+  const [movieList, setMovieList] = useState([]);
 
   useEffect(() => {
     async function fetchMovie() {
@@ -53,9 +53,25 @@ function Main({ movies, isLoading, error }) {
     setMovieID("");
   }
 
-  if (activeList) {
-    movieList = JSON.parse(localStorage.getItem(activeList));
+  function handleRemoveFromList(e, listName, id) {
+    e.stopPropagation();
+    const existingLocalStorageWishlistCollection = JSON.parse(
+      localStorage.getItem(listName),
+    );
+    const newLocalStorageWishlistCollection = [
+      ...existingLocalStorageWishlistCollection,
+    ].filter((movie) => movie.id !== id);
+
+    localStorage.setItem(
+      listName,
+      JSON.stringify(newLocalStorageWishlistCollection),
+    );
+    setMovieList(newLocalStorageWishlistCollection);
   }
+
+  useEffect(() => {
+    setMovieList(JSON.parse(localStorage.getItem(activeList)));
+  }, [activeList]);
 
   const bgWatched = activeList === "watched" ? "bg-stone-500" : "bg-stone-600";
   const bgWatchList =
@@ -109,18 +125,20 @@ function Main({ movies, isLoading, error }) {
         )}
         {isLoadingMovie && <Loader />}
         {errorMovie && <ErrorMessage message={errorMovie} />}
-        {activeList && localStorage.getItem(activeList) && (
+        {activeList && (
           <div className="flex flex-wrap">
-            {movieList.map((movie) => (
+            {movieList?.map((movie) => (
               <MovieList
                 key={movie.id}
                 movie={movie.movie}
                 onChooseMovie={handleChooseMovie}
+                listName={activeList}
+                onRemoveMovie={handleRemoveFromList}
               />
             ))}
           </div>
         )}
-        {activeList && !localStorage.getItem(activeList) && (
+        {activeList && !movieList?.length && (
           <div className="p-10 text-center text-3xl">
             No movies have been added to the list.
           </div>

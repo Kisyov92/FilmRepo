@@ -15,7 +15,31 @@ function MovieInfo({ movie, onCloseMovie }) {
     imdbID,
   } = movie;
 
+  const [isInWatched, setIsInWatched] = useState(
+    movieIsInList("watched", imdbID),
+  );
+  const [isInWatchList, setIsInWatchList] = useState(
+    movieIsInList("watchlist", imdbID),
+  );
+
   function changeWishlist() {
+    if (isInWatchList) {
+      const existingLocalStorageWishlistCollection = JSON.parse(
+        localStorage.getItem("watchlist"),
+      );
+      const newLocalStorageWishlistCollection = [
+        ...existingLocalStorageWishlistCollection,
+      ].filter((movie) => movie.id !== imdbID);
+      console.log(newLocalStorageWishlistCollection);
+
+      localStorage.setItem(
+        "watchlist",
+        JSON.stringify(newLocalStorageWishlistCollection),
+      );
+      setIsInWatchList(false);
+      return;
+    }
+
     if (!localStorage.getItem("watchlist")) {
       localStorage.setItem(
         "watchlist",
@@ -33,9 +57,28 @@ function MovieInfo({ movie, onCloseMovie }) {
         "watchlist",
         JSON.stringify(newLocalStorageWishlistCollection),
       );
+
+      setIsInWatchList(true);
     }
   }
   function changeWatchedlist() {
+    if (isInWatched) {
+      const existingLocalStorageWishlistCollection = JSON.parse(
+        localStorage.getItem("watched"),
+      );
+      const newLocalStorageWishlistCollection = [
+        ...existingLocalStorageWishlistCollection,
+      ].filter((movie) => movie.id !== imdbID);
+      console.log(newLocalStorageWishlistCollection);
+
+      localStorage.setItem(
+        "watched",
+        JSON.stringify(newLocalStorageWishlistCollection),
+      );
+      setIsInWatched(false);
+      return;
+    }
+
     if (!localStorage.getItem("watched")) {
       localStorage.setItem("watched", JSON.stringify([{ id: imdbID, movie }]));
     } else {
@@ -51,7 +94,14 @@ function MovieInfo({ movie, onCloseMovie }) {
         "watched",
         JSON.stringify(newLocalStorageWishlistCollection),
       );
+
+      setIsInWatched(true);
     }
+  }
+
+  function movieIsInList(listName, id) {
+    const list = JSON.parse(localStorage.getItem(listName));
+    return list?.some((movie) => movie.id === id);
   }
 
   return (
@@ -97,13 +147,13 @@ function MovieInfo({ movie, onCloseMovie }) {
           className="mb-4 rounded-md bg-[#6741d9] px-4 py-2 text-xl"
           onClick={changeWatchedlist}
         >
-          {false ? "REMOVE FROM WATCHED" : "ADD TO WATCH HISTORY"}
+          {isInWatched ? "REMOVE FROM WATCHED" : "ADD TO WATCH HISTORY"}
         </button>
         <button
           className="mb-4 rounded-md bg-[#6741d9] px-4 py-2 text-xl"
           onClick={changeWishlist}
         >
-          {false ? "REMOVE FROM WATCHLIST" : "ADD TO WATCHLIST"}
+          {isInWatchList ? "REMOVE FROM WATCHLIST" : "ADD TO WATCHLIST"}
         </button>
       </div>
     </div>

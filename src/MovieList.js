@@ -1,4 +1,4 @@
-function MovieList({ movie, onChooseMovie }) {
+function MovieList({ movie, onChooseMovie, listName, onRemoveMovie }) {
   const {
     Poster: poster,
     Title: title,
@@ -15,10 +15,10 @@ function MovieList({ movie, onChooseMovie }) {
 
   return (
     <div
-      className="flex w-1/2 rounded-lg p-10 hover:cursor-pointer hover:bg-stone-500"
+      className="flex w-1/2 rounded-lg px-5 py-10 hover:cursor-pointer hover:bg-stone-500"
       onClick={() => onChooseMovie(imdbID)}
     >
-      <img src={poster} alt="movie poster" className="w-32" />
+      <img src={poster} alt="movie poster" className="w-44" />
       <div className="flex justify-between px-10">
         <div>
           <h3 className="text-2xl font-bold">{title}</h3>
@@ -29,6 +29,9 @@ function MovieList({ movie, onChooseMovie }) {
             IMDB rating: <span>⭐</span>
             {rating}
           </p>
+          <button onClick={(e) => onRemoveMovie(e, listName, imdbID)}>
+            remove
+          </button>
         </div>
       </div>
     </div>
