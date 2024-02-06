@@ -2,27 +2,27 @@ import popcornImg from "./img/popcorn.jpg";
 import logo from "./img/logo.png";
 import { useEffect, useState } from "react";
 
-import {
-  createUserWithEmailAndPassword,
-  onAuthStateChanged,
-  signInWithEmailAndPassword,
-  signOut,
-} from "firebase/auth";
-import { auth } from "./config/firebase";
+// import {
+//   createUserWithEmailAndPassword,
+//   onAuthStateChanged,
+//   signInWithEmailAndPassword,
+//   signOut,
+// } from "firebase/auth";
+// import { auth } from "./config/firebase";
 
 function Header({ moviesNum, onSetQuery }) {
   const [inputValue, setInputValue] = useState("");
-  const [userAction, setUserAction] = useState("");
-  const [registerEmail, setRegisterEmail] = useState("");
-  const [registerPassword, setRegisterPassword] = useState("");
-  const [loginEmail, setLoginEmail] = useState("");
-  const [loginPassword, setLoginPassword] = useState("");
-  const [user, setUser] = useState({});
+  // const [userAction, setUserAction] = useState("");
+  // const [registerEmail, setRegisterEmail] = useState("");
+  // const [registerPassword, setRegisterPassword] = useState("");
+  // const [loginEmail, setLoginEmail] = useState("");
+  // const [loginPassword, setLoginPassword] = useState("");
+  // const [user, setUser] = useState({});
 
   useEffect(() => {
     const timer = setTimeout(() => {
       onSetQuery(inputValue);
-    }, 500);
+    }, 300);
     return () => clearTimeout(timer);
   }, [inputValue]);
 
@@ -30,34 +30,34 @@ function Header({ moviesNum, onSetQuery }) {
     setInputValue(e.target.value);
   }
 
-  useEffect(() => {
-    onAuthStateChanged(auth, (currentUser) => {
-      if (currentUser) {
-        setUser(currentUser);
-        setUserAction("");
-        // onLoginAndLogout(currentUser.email);
-      }
-    });
-  }, []);
+  // useEffect(() => {
+  //   onAuthStateChanged(auth, (currentUser) => {
+  //     if (currentUser) {
+  //       setUser(currentUser);
+  //       setUserAction("");
+  //       // onLoginAndLogout(currentUser.email);
+  //     }
+  //   });
+  // }, []);
 
-  function handleUserAction(action) {
-    setUserAction(action);
-  }
+  // function handleUserAction(action) {
+  //   setUserAction(action);
+  // }
 
-  async function handleRegister(e) {
-    e.preventDefault();
-    try {
-      const user = await createUserWithEmailAndPassword(
-        auth,
-        registerEmail,
-        registerPassword,
-      );
-      setRegisterEmail("");
-      setRegisterPassword("");
-    } catch (err) {
-      console.log(err.message);
-    }
-  }
+  // async function handleRegister(e) {
+  //   e.preventDefault();
+  //   try {
+  //     const user = await createUserWithEmailAndPassword(
+  //       auth,
+  //       registerEmail,
+  //       registerPassword,
+  //     );
+  //     setRegisterEmail("");
+  //     setRegisterPassword("");
+  //   } catch (err) {
+  //     console.log(err.message);
+  //   }
+  // }
   // async function handleLogin(e) {
   //   e.preventDefault();
   //   try {

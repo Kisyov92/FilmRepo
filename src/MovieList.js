@@ -12,10 +12,10 @@ function MovieList({
     Runtime: duration,
     Genre: genre,
     imdbRating: rating,
-    Plot: plot,
-    Actors: actors,
-    Director: director,
-    Writer: writer,
+    // Plot: plot,
+    // Actors: actors,
+    // Director: director,
+    // Writer: writer,
     imdbID,
   } = movie;
 
@@ -35,13 +35,13 @@ function MovieList({
           {rating}
         </p>
         <button
-          className="mt-auto w-fit rounded-md bg-[#6741d9] px-4 py-2 text-base"
+          className="mt-auto w-fit rounded-md bg-[#6741d9] px-4 py-2 text-base transition-all hover:bg-[#7654dd]"
           onClick={(e) => onMoveToOtherList(e, listName, imdbID)}
         >
           {listName === "watched" ? "WATCH AGAIN" : "ADD TO WATCH HISTORY"}
         </button>
         <button
-          className=" w-fit rounded-md bg-[#6741d9] px-4 py-2 text-base"
+          className=" w-fit rounded-md bg-[#6741d9] px-4 py-2 text-base transition-all hover:bg-[#7654dd]"
           onClick={(e) => onRemoveMovie(e, listName, imdbID)}
         >
           DELETE FROM LIST

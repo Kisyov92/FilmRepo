@@ -144,13 +144,13 @@ function MovieInfo({ movie, onCloseMovie }) {
       </div>
       <div className="flex justify-center gap-10">
         <button
-          className="mb-4 rounded-md bg-[#6741d9] px-4 py-2 text-xl"
+          className="mb-4 rounded-md bg-[#6741d9] px-4 py-2 text-xl transition-all hover:bg-[#7654dd]"
           onClick={changeWatchedlist}
         >
           {isInWatched ? "REMOVE FROM WATCHED" : "ADD TO WATCH HISTORY"}
         </button>
         <button
-          className="mb-4 rounded-md bg-[#6741d9] px-4 py-2 text-xl"
+          className="mb-4 rounded-md bg-[#6741d9] px-4 py-2 text-xl transition-all hover:bg-[#7654dd]"
           onClick={changeWishlist}
         >
           {isInWatchList ? "REMOVE FROM WATCHLIST" : "ADD TO WATCHLIST"}
