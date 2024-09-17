@@ -110,7 +110,7 @@ function Main({ movies, isLoading, error }) {
   const noMovies = movies?.length === 0;
 
   return (
-    <main className="flex gap-10 bg-stone-700 px-10 py-14 text-stone-50">
+    <main className="flex grow gap-10 bg-stone-700 px-10 py-14 text-stone-50">
       <section className="scrollbar max-h-[600px] w-1/2 overflow-y-scroll   rounded-lg bg-stone-600">
         <div>
           {isLoading && <Loader />}

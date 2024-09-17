@@ -89,12 +89,9 @@ function Header({ moviesNum, onSetQuery }) {
       style={{ "--image-url": `url(${popcornImg})` }}
       className="relative h-[500px] bg-[image:var(--image-url)] bg-cover bg-[center_bottom_-500px] text-stone-50"
     >
-      <nav className="mx-auto flex w-[1024px] items-center justify-between rounded-md bg-[#6741d9] px-10 py-1">
+      <nav className="mx-auto flex max-w-[1024px] items-center justify-between rounded-md bg-[#6741d9] px-10 py-1">
         <img src={logo} alt="FilmRepo's logo" className="w-60" />
-        <p>
-          No user authentication avaivable. All created list will be stored in
-          local storage
-        </p>
+        <p>Your movie collection</p>
         {/* {!username && (
           <ul className="flex gap-5">
             <li

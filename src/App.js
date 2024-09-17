@@ -19,19 +19,21 @@ function App() {
 
   return (
     <>
-      <Header
-        onMovieInput={handleMovieInput}
-        onSetQuery={setQuery}
-        moviesNum={movies.length}
-        // onLoginAndLogout={handleLoginAndLogout}
-      />
-      <Main
-        movies={movies}
-        isLoading={isLoading}
-        error={error}
-        // isLoggedIn={isLoggedIn}
-        // user={username}
-      />
+      <div className="flex min-h-screen flex-col">
+        <Header
+          onMovieInput={handleMovieInput}
+          onSetQuery={setQuery}
+          moviesNum={movies.length}
+          // onLoginAndLogout={handleLoginAndLogout}
+        />
+        <Main
+          movies={movies}
+          isLoading={isLoading}
+          error={error}
+          // isLoggedIn={isLoggedIn}
+          // user={username}
+        />
+      </div>
     </>
   );
 }
